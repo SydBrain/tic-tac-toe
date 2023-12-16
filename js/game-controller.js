@@ -1,5 +1,3 @@
-import { Cell } from "./gameboard.js";
-
 export const GameController = (() => {
     let players = [];
     let currentPlayer;

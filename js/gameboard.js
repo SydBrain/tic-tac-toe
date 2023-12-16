@@ -11,18 +11,21 @@ export const Gameboard = (function() {
     const columns = 3;
     const rows = 3;
 
-    let gameboard = [];
+    let gameBoard = [];
+
+    const getGameBoard = () => gameBoard;
+    const getRows = () => rows;
+    const getColumns = () => columns;
 
     for (let i = 0; i < rows; i++) {
-        gameboard[i] = [];
+        gameBoard[i] = [];
         for (let j = 0; j < columns; j++) {
             let cell = Cell();
             cell.setTokenValue(0);
-            gameboard[i].push(cell); 
+            gameBoard[i].push(cell); 
         }
     }
 
-    const getGameBoard = () => gameboard;
 
-    return {getGameBoard};
+    return {getGameBoard, getRows, getColumns};
 })();

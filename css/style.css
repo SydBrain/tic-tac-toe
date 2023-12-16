@@ -1,0 +1,26 @@
+.board-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 4rem;
+}
+
+.game-board {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    width: fit-content;
+    padding: 4px;
+    gap: 4px; 
+    background-color: black; 
+}
+
+.board-cell {
+    width: 100px;
+    height: 100px;
+    padding: 1rem;
+    cursor: pointer;
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+    background-color: white; 
+}

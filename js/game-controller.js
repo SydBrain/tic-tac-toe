@@ -1,7 +1,6 @@
-import { Gameboard } from "./gameboard.js";
+import { ScreenController } from "./screen-controller.js";
 
 export const GameController = (() => {
-    const gameBoard = Gameboard.getGameBoard();
     let players = [];
     let currentPlayer;
 
@@ -13,7 +12,7 @@ export const GameController = (() => {
         currentPlayer = players[0];
     }
 
-    const checkWinner = (playerToken) => {
+    const checkWinner = (playerToken, gameBoard) => {
         // Check rows
         for (let row = 0; row < 3; row++) {
             if (gameBoard[row].every(cell => cell.getTokenValue() === playerToken)) {
@@ -44,7 +43,7 @@ export const GameController = (() => {
         return false;
     };
 
-    const checkTie = () => {
+    const checkTie = (gameBoard) => {
         return gameBoard.flat().every(cell => cell.getTokenValue() !== 0);
     };
 
@@ -52,11 +51,16 @@ export const GameController = (() => {
     const playRound = (gameBoard, rowIndex, columnIndex) => {
         let cell = gameBoard[rowIndex][columnIndex];
         let currentPlayerToken = currentPlayer.getPlayerToken();
+
         cell.setTokenValue(currentPlayerToken); 
-        if (checkWinner(currentPlayerToken)) {
+        if (checkWinner(currentPlayerToken, gameBoard)) {
             console.log(`${currentPlayer.getPlayerName()} wins.`);
-        } else if (checkTie()) {
+            resetGame(gameBoard);
+            ScreenController.resetGameBoard();
+        } else if (checkTie(gameBoard)) {
             console.log("It's a tie");
+            resetGame(gameBoard);
+            ScreenController.resetGameBoard();
         } else {
             switchPlayerTurn();
         } 
@@ -66,8 +70,14 @@ export const GameController = (() => {
         currentPlayer = (currentPlayer === players[0]) ? players[1] : players[0];
     };
 
+    const resetGame = (gameBoard) => {
+        gameBoard.forEach((row, rowIndex) => {
+            row.forEach((cell, columnIndex) => {
+                cell.setTokenValue(0);
+            })
+        });
+    }
 
 
-
-    return {getPlayers, setPlayers, playRound, switchPlayerTurn, checkWinner, checkTie};
+    return {getPlayers, setPlayers, playRound, switchPlayerTurn, checkWinner, checkTie, resetGame};
 })();

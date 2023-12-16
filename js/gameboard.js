@@ -14,8 +14,6 @@ export const Gameboard = (function() {
     let gameBoard = [];
 
     const getGameBoard = () => gameBoard;
-    const getRows = () => rows;
-    const getColumns = () => columns;
 
     for (let i = 0; i < rows; i++) {
         gameBoard[i] = [];
@@ -27,5 +25,5 @@ export const Gameboard = (function() {
     }
 
 
-    return {getGameBoard, getRows, getColumns};
+    return {getGameBoard};
 })();

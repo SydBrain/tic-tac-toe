@@ -12,7 +12,7 @@ export const ScreenController = (() => {
                 cellElement.dataset.colIndex = columnIndex;
                 cellElement.dataset.rowIndex = rowIndex;
                 cellElement.innerText = cell.getTokenValue();
-              
+
                 cellElement.addEventListener('click', (e) => {
                     if (cell.getTokenValue() === 0) {
                         GameController.playRound(gameBoard, rowIndex, columnIndex);
@@ -27,5 +27,12 @@ export const ScreenController = (() => {
         parentElement.appendChild(board);
     };
 
-    return { displayGameBoard };
+    const resetGameBoard = () => {
+        const cells = document.querySelectorAll('.board-cell');
+        cells.forEach(cell => {
+            cell.innerText = 0;
+        });
+    }
+
+    return { displayGameBoard, resetGameBoard };
 })();

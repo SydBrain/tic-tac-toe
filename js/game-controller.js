@@ -76,6 +76,8 @@ export const GameController = (() => {
                 cell.setTokenValue(0);
             })
         });
+        
+        currentPlayer = players[0];
     }
 
 

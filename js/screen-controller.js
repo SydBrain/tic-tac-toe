@@ -10,7 +10,7 @@ export const ScreenController = (() => {
                 cellElement.classList.add('board-cell');
                 cellElement.dataset.colIndex = columnIndex;
                 cellElement.dataset.rowIndex = rowIndex;
-                cellElement.innerText = cell;
+                cellElement.innerText = cell.getTokenValue();
                 board.appendChild(cellElement); 
             })
         });

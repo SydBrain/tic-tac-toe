@@ -1,14 +1,37 @@
 import { Gameboard } from "./gameboard.js"
 import { Player } from "./player.js";
 import { ScreenController } from "./screen-controller.js"
+import { GameController } from "./game-controller.js";
 
  document.addEventListener("DOMContentLoaded", () => {
+
     const gameBoardContainer = document.getElementById('boardContainer');
-
     const gameBoard = Gameboard.getGameBoard();
+    
+    const gameStartFormContainer = document.getElementById('gameStartFormContainer');
+    const gameStartForm = document.getElementById('gameStartForm');
+    gameStartForm.addEventListener('submit', (event) => {
+        event.preventDefault();
+        gameStartFormContainer.classList.add('hidden');
 
-    const PlayerOne = Player("Player One", 1);
-    const PlayerTwo = Player("Player Two", 2);
+        const playerOneName = document.getElementById('playerOneName').value.trim() || "Player One";
+        const playerTwoName = document.getElementById('playerTwoName').value.trim() || "Player Two";
 
-    ScreenController.displayGameBoard(gameBoard, gameBoardContainer);
+        const PlayerOne = Player(playerOneName, 1);
+        const PlayerTwo = Player(playerTwoName, 2);
+
+        let players = [
+            PlayerOne,
+            PlayerTwo
+        ];
+
+        console.log(players);
+
+        GameController(players, gameBoard);
+        ScreenController.displayGameBoard(gameBoard, gameBoardContainer);
+
+        gameStartForm.reset();
+    });
+    
+
 })

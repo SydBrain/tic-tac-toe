@@ -5,7 +5,6 @@ import { ScreenController } from "./screen-controller.js"
     const gameBoardContainer = document.getElementById('boardContainer');
 
     const gameBoard = Gameboard.getGameBoard();
-    console.log("Game Board: ", gameBoard);
-
+    
     ScreenController.displayGameBoard(gameBoard, gameBoardContainer);
 })

@@ -1,5 +1,9 @@
+import { GameController } from "./game-controller.js";
+
 export const ScreenController = (() => {
     let cellElements = [];
+
+    const getCellElements = () => cellElements;
 
     const displayGameBoard = (gameBoard, parentElement) => {
         if (cellElements.length >= 0) cellElements = [];
@@ -22,6 +26,18 @@ export const ScreenController = (() => {
         parentElement.appendChild(board);
     }
 
+    const updateCell = (gameBoard, rowIndex, colIndex) => {
+        const cellElement = document.querySelector(`[data-row-index="${rowIndex}"][data-col-index="${colIndex}"]`);
+        cellElement.innerText = gameBoard[rowIndex][colIndex].getTokenValue();
+    }
+
+    const displayGameResult = (result) => {
+        const endGameSection = document.getElementById('endGame');
+        const gameResultElement = document.createElement('div');
+        gameResultElement.innerText = result;
+        
+    }
+
     const addClickListeners = (domElements, clickFunction) => {
         domElements.forEach(domElement => {
             domElement.addEventListener('click', clickFunction);
@@ -35,7 +51,10 @@ export const ScreenController = (() => {
     }
 
     return {
-        displayGameBoard, 
+        displayGameBoard,
+        getCellElements,
+        updateCell,
+        displayGameResult, 
         addClickListeners, 
         removeClickListeners
     };

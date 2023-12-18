@@ -27,9 +27,16 @@ import { GameController } from "./game-controller.js";
 
         console.log(players);
 
-        const gameControllerInstance = GameController(players, gameBoard);
-        console.log(gameControllerInstance.checkWinner());
+        const gameController = GameController(players, gameBoard);
+
         ScreenController.displayGameBoard(gameBoard, gameBoardContainer);
+        const gameBoardCells = ScreenController.getCellElements();
+
+        gameBoardCells.forEach(cell => {
+            const rowIndex = parseInt(cell.getAttribute(['data-row-index']));
+            const columnIndex = parseInt(cell.getAttribute(['data-col-index']));
+            cell.addEventListener('click', () => gameController.playTurn(rowIndex, columnIndex))
+        })
 
         gameStartForm.reset();
     });

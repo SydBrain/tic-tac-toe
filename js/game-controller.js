@@ -1,13 +1,18 @@
+import { ScreenController } from "./screen-controller.js";
+
 export const GameController = (players, gameBoard) => {
     let currentPlayer = players[0];
 
-    const playTurn = (boardRow, boardCol) => {
+    const playTurn = (rowIndex, colIndex) => {
         // Add player token to selected board index, if there's no token
-        if (gameBoard[boardRow][boardCol] === 0) {
-            gameBoard[boardRow][boardCol] = currentPlayer.playerToken;
+        if (gameBoard[rowIndex][colIndex].getTokenValue() === 0) {
+            gameBoard[rowIndex][colIndex].setTokenValue(currentPlayer.playerToken);
         }
 
+        ScreenController.updateCell(gameBoard, rowIndex, colIndex);
+
         // Check if currentPlayer has won else switch turn
+        // Implement UI for game conditions
         if (isWinner(currentPlayer)) {
             console.log(`${currentPlayer} won!`);
         } else if (isTie()) {
@@ -78,5 +83,7 @@ export const GameController = (players, gameBoard) => {
 
     return {
         playTurn,
+        isWinner,
+        isTie
     }
 }

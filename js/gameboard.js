@@ -4,7 +4,7 @@ export const Cell = () => {
     const getTokenValue = () => value;
     const setTokenValue = (tokenValue) => {value = tokenValue};
 
-    return {getTokenValue, setTokenValue};
+    return {value, getTokenValue, setTokenValue};
 }
 
 export const Gameboard = (() => {

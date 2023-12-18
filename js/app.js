@@ -27,7 +27,8 @@ import { GameController } from "./game-controller.js";
 
         console.log(players);
 
-        GameController(players, gameBoard);
+        const gameControllerInstance = GameController(players, gameBoard);
+        console.log(gameControllerInstance.checkWinner());
         ScreenController.displayGameBoard(gameBoard, gameBoardContainer);
 
         gameStartForm.reset();

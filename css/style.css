@@ -4,12 +4,34 @@
     font-family: 'Poppins', Arial, Helvetica, sans-serif;
 }
 
+:root {
+    --background-color: #1e1e1e;
+    --main-color: #eadfd5;
+    --accent-color: #fe8d4c;
+    --main-gradient: linear-gradient(0deg, rgba(42,35,34,1) 0%, rgba(63,46,41,1) 35%, rgba(109,102,95,1) 100%);
+}
+
 header {
     text-align: center;
 }
 
+h1 {
+    margin: 0;
+}
+
 label {
     display: block;
+}
+
+body {
+    margin: 0;
+    color: var(--main-color);
+    background: var(--main-gradient);
+    height: 100vh;
+}
+
+main {
+    padding: 4rem;
 }
 
 .game-start-container {
@@ -42,9 +64,11 @@ label {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     width: fit-content;
-    padding: 4px;
-    gap: 4px; 
-    background-color: black; 
+    padding: 2px;
+    gap: 2px; 
+    background-color: rgb(37, 37, 37);
+    border-radius: 20px; 
+    overflow: hidden;
 }
 
 .board-cell {
@@ -55,7 +79,33 @@ label {
     display: flex; 
     justify-content: center; 
     align-items: center; 
-    background-color: white; 
+    background-color: var(--background-color);
+    position: relative;
+    background-size: cover;
+    background-position: center;
+}
+
+.board-cell::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-size: cover;
+    background-position: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.board-cell:not(.filled)[data-hover-player="1"]:hover::before {
+    background-image: url('../assets/images/x.svg');
+    opacity: 1;
+}
+
+.board-cell:not(.filled)[data-hover-player="2"]:hover::before {
+    background-image: url('../assets/images/circle.svg');
+    opacity: 1;
 }
 
 .end-game {

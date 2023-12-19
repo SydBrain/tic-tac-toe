@@ -17,12 +17,15 @@ export const GameController = (players, gameBoard) => {
         // Implement UI for game conditions
         if (isWinner(currentPlayer)) {
             ScreenController.displayGameResult(`${currentPlayer.playerName} wins.`);
+            ScreenController.updateHoverEffect('');
             emitGameEnded();
         } else if (isTie()) {
             ScreenController.displayGameResult("It's a tie.");
+            ScreenController.updateHoverEffect('');
             emitGameEnded();
         } else {
             switchPlayerTurn();
+            ScreenController.updateHoverEffect(currentPlayer.playerToken);
         }
     };
 

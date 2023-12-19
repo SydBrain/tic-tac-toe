@@ -32,7 +32,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const PlayerTwo = Player(playerTwoName, 2);
 
         gameController = GameController([PlayerOne, PlayerTwo], Gameboard.getGameBoard());
-        ScreenController.displayGameBoard(Gameboard.getGameBoard(), gameBoardContainer);
+        ScreenController.displayGameBoard(Gameboard.getGameBoard(), gameBoardContainer, PlayerOne.playerToken);
         addCellClickListeners();
         ScreenController.displayCurrentTurn(PlayerOne.playerName);
     };

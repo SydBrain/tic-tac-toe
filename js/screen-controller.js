@@ -2,10 +2,12 @@ import { GameController } from "./game-controller.js";
 
 export const ScreenController = (() => {
     let cellElements = [];
+    const playerOneImage = "../assets/images/x.svg";
+    const playerTwoImage = "../assets/images/circle.svg";
 
     const getCellElements = () => cellElements;
 
-    const displayGameBoard = (gameBoard, parentElement) => {
+    const displayGameBoard = (gameBoard, parentElement, currentPlayerToken) => {
         clearGameBoard(parentElement); // Clear the existing game board
         cellElements = []; // Reset cell elements array
 
@@ -17,9 +19,13 @@ export const ScreenController = (() => {
             row.forEach((cell, columnIndex) => {
                 const cellElement = document.createElement('div');
                 cellElement.classList.add('board-cell');
+                if (cellElement.classList.contains('filled')) {
+                    cellElement.classList.remove('filled');
+                }
                 cellElement.dataset.colIndex = columnIndex;
                 cellElement.dataset.rowIndex = rowIndex;
-                cellElement.innerText = cell.getTokenValue();
+                cellElement.dataset.hoverPlayer = currentPlayerToken;
+                cellElement.innerText = '';
                 board.appendChild(cellElement); 
                 cellElements.push(cellElement);
             })
@@ -36,8 +42,23 @@ export const ScreenController = (() => {
 
     const updateCell = (gameBoard, rowIndex, colIndex) => {
         const cellElement = document.querySelector(`[data-row-index="${rowIndex}"][data-col-index="${colIndex}"]`);
-        cellElement.innerText = gameBoard[rowIndex][colIndex].getTokenValue();
+        const cellValue = gameBoard[rowIndex][colIndex].getTokenValue();
+
+        if (cellValue === 1) {
+            cellElement.style.backgroundImage = `url(${playerOneImage})`;
+            cellElement.classList.add('filled');
+        } else if (cellValue === 2) {
+            cellElement.style.backgroundImage = `url(${playerTwoImage})`;
+            cellElement.classList.add('filled');
+        }
     }
+
+    const updateHoverEffect = (currentPlayerToken) => {
+        cellElements.forEach(cell => {
+            cell.dataset.hoverPlayer = currentPlayerToken;
+        });
+    };
+    
 
     const displayGameResult = (result) => {
         const endGameSection = document.getElementById('endGame');
@@ -55,6 +76,7 @@ export const ScreenController = (() => {
         displayGameBoard,
         getCellElements,
         updateCell,
+        updateHoverEffect,
         displayGameResult,
         displayCurrentTurn 
     };

@@ -14,17 +14,19 @@ export const GameController = (players, gameBoard) => {
         // Check if currentPlayer has won else switch turn
         // Implement UI for game conditions
         if (isWinner(currentPlayer)) {
-            console.log(`${currentPlayer} won!`);
+            ScreenController.displayGameResult(`${currentPlayer.playerName} wins.`);
+            emitGameEnded();
         } else if (isTie()) {
-            console.log("It's a tie");
+            ScreenController.displayGameResult("It's a tie.");
+            emitGameEnded();
         } else {
             switchPlayerTurn();
         }
-    }
+    };
 
     const switchPlayerTurn = () => {
         currentPlayer = (currentPlayer === players[0]) ? players[1] : players[0];
-    }
+    };
 
     const isWinner = (currentPlayer) => {
         // Check Rows
@@ -47,7 +49,7 @@ export const GameController = (players, gameBoard) => {
         }
 
         // Check Diagonals
-        
+
         // Major Diagonal
         let cellsInMajDiagonal = [];
         for (let rowIndex = 0; rowIndex < gameBoard.length; rowIndex++) {
@@ -65,25 +67,29 @@ export const GameController = (players, gameBoard) => {
         if (cellsInMinDiagonal.every(cell => cell.getTokenValue() === currentPlayer.playerToken)) {
             return true;
         }
-        
+
 
         return false;
-    }
+    };
 
     const isTie = () => {
         for (let row of gameBoard) {
             for (let cell of row) {
-                if (cell.getTokenValue() === 0) { 
-                    return false; 
+                if (cell.getTokenValue() === 0) {
+                    return false;
                 }
             }
         }
-        return true; 
-    }
+        return true;
+    };
+
+    const emitGameEnded = () => {
+        document.dispatchEvent(new CustomEvent("gameEnded"));
+    };
 
     return {
         playTurn,
         isWinner,
         isTie
-    }
+    };
 }

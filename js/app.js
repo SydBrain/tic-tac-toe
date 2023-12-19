@@ -3,11 +3,11 @@ import { Player } from "./player.js";
 import { ScreenController } from "./screen-controller.js"
 import { GameController } from "./game-controller.js";
 
- document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", () => {
 
     const gameBoardContainer = document.getElementById('boardContainer');
     const gameBoard = Gameboard.getGameBoard();
-    
+
     const gameStartFormContainer = document.getElementById('gameStartFormContainer');
     const gameStartForm = document.getElementById('gameStartForm');
     gameStartForm.addEventListener('submit', (event) => {
@@ -27,19 +27,32 @@ import { GameController } from "./game-controller.js";
 
         console.log(players);
 
-        const gameController = GameController(players, gameBoard);
-
         ScreenController.displayGameBoard(gameBoard, gameBoardContainer);
         const gameBoardCells = ScreenController.getCellElements();
 
+        const gameController = GameController(players, gameBoard);
+
+        // Add event listener to handle game end
+        document.addEventListener('gameEnded', () => {
+            gameBoardCells.forEach(cell => {
+                cell.removeEventListener('click', onCellClick);
+            });
+        });
+
+        function onCellClick(event) {
+            const cell = event.target;
+            const rowIndex = parseInt(cell.getAttribute('data-row-index'));
+            const columnIndex = parseInt(cell.getAttribute('data-col-index'));
+            gameController.playTurn(rowIndex, columnIndex);
+        }
+
+        // Add click listeners to cells
         gameBoardCells.forEach(cell => {
-            const rowIndex = parseInt(cell.getAttribute(['data-row-index']));
-            const columnIndex = parseInt(cell.getAttribute(['data-col-index']));
-            cell.addEventListener('click', () => gameController.playTurn(rowIndex, columnIndex))
-        })
+            cell.addEventListener('click', onCellClick);
+        });
 
         gameStartForm.reset();
     });
-    
+
 
 })

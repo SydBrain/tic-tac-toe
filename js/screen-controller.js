@@ -33,21 +33,10 @@ export const ScreenController = (() => {
 
     const displayGameResult = (result) => {
         const endGameSection = document.getElementById('endGame');
-        const gameResultElement = document.createElement('div');
+        const gameResultElement = document.getElementById('gameResult');
+        endGameSection.classList.remove("hidden");
         gameResultElement.innerText = result;
-        
-    }
-
-    const addClickListeners = (domElements, clickFunction) => {
-        domElements.forEach(domElement => {
-            domElement.addEventListener('click', clickFunction);
-        })
-    }
-
-    const removeClickListeners = (domElements, clickFunction) => {
-        domElements.forEach(domElement => {
-            domElement.removeEventListener('click', clickFunction);
-        })
+        endGameSection.appendChild(gameResultElement);
     }
 
     return {
@@ -55,7 +44,5 @@ export const ScreenController = (() => {
         getCellElements,
         updateCell,
         displayGameResult, 
-        addClickListeners, 
-        removeClickListeners
     };
 })();

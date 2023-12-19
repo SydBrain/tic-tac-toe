@@ -27,12 +27,16 @@ label {
     gap: 2rem;
 }
 
+.current-turn-container {
+    margin: 0 auto;
+    text-align: center;
+}
 
 .board-container {
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 4rem;
+    padding: 2rem;
 }
 
 .game-board {

@@ -3,6 +3,8 @@ import { ScreenController } from "./screen-controller.js";
 export const GameController = (players, gameBoard) => {
     let currentPlayer = players[0];
 
+    ScreenController.displayCurrentTurn(currentPlayer.playerName);
+
     const playTurn = (rowIndex, colIndex) => {
         // Add player token to selected board index, if there's no token
         if (gameBoard[rowIndex][colIndex].getTokenValue() === 0) {
@@ -26,6 +28,7 @@ export const GameController = (players, gameBoard) => {
 
     const switchPlayerTurn = () => {
         currentPlayer = (currentPlayer === players[0]) ? players[1] : players[0];
+        ScreenController.displayCurrentTurn(currentPlayer.playerName);
     };
 
     const isWinner = (currentPlayer) => {

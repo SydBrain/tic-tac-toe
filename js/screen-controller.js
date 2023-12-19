@@ -6,7 +6,9 @@ export const ScreenController = (() => {
     const getCellElements = () => cellElements;
 
     const displayGameBoard = (gameBoard, parentElement) => {
-        if (cellElements.length >= 0) cellElements = [];
+        clearGameBoard(parentElement); // Clear the existing game board
+        cellElements = []; // Reset cell elements array
+
 
         const board = document.createElement('div');
         board.classList.add('game-board');
@@ -26,6 +28,12 @@ export const ScreenController = (() => {
         parentElement.appendChild(board);
     }
 
+    const clearGameBoard = (parentElement) => {
+        while (parentElement.firstChild) {
+            parentElement.removeChild(parentElement.firstChild);
+        }
+    };
+
     const updateCell = (gameBoard, rowIndex, colIndex) => {
         const cellElement = document.querySelector(`[data-row-index="${rowIndex}"][data-col-index="${colIndex}"]`);
         cellElement.innerText = gameBoard[rowIndex][colIndex].getTokenValue();
@@ -36,13 +44,18 @@ export const ScreenController = (() => {
         const gameResultElement = document.getElementById('gameResult');
         endGameSection.classList.remove("hidden");
         gameResultElement.innerText = result;
-        endGameSection.appendChild(gameResultElement);
     }
+
+    const displayCurrentTurn = (playerName) => {
+        const currentTurnElement = document.getElementById('currentTurn');
+        currentTurnElement.textContent = `${playerName}'s Turn`;
+    };
 
     return {
         displayGameBoard,
         getCellElements,
         updateCell,
-        displayGameResult, 
+        displayGameResult,
+        displayCurrentTurn 
     };
 })();

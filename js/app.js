@@ -41,6 +41,7 @@ document.addEventListener("DOMContentLoaded", () => {
         event.preventDefault();
         gameStartFormContainer.classList.add('hidden');
         initializeGame();
+        gameStartForm.reset();
     });
 
     restartGameButton.addEventListener('click', () => {

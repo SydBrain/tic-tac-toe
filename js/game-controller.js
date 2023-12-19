@@ -6,15 +6,16 @@ export const GameController = (players, gameBoard) => {
     ScreenController.displayCurrentTurn(currentPlayer.playerName);
 
     const playTurn = (rowIndex, colIndex) => {
-        // Add player token to selected board index, if there's no token
-        if (gameBoard[rowIndex][colIndex].getTokenValue() === 0) {
-            gameBoard[rowIndex][colIndex].setTokenValue(currentPlayer.playerToken);
+
+        if (gameBoard[rowIndex][colIndex].getTokenValue() !== 0) {
+            return;
         }
+    
+        gameBoard[rowIndex][colIndex].setTokenValue(currentPlayer.playerToken);
+        ScreenController.updateCell(gameBoard, rowIndex, colIndex);
 
         ScreenController.updateCell(gameBoard, rowIndex, colIndex);
 
-        // Check if currentPlayer has won else switch turn
-        // Implement UI for game conditions
         if (isWinner(currentPlayer)) {
             ScreenController.displayGameResult(`${currentPlayer.playerName} wins.`);
             ScreenController.updateHoverEffect('');

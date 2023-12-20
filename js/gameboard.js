@@ -20,14 +20,14 @@ export const Gameboard = (() => {
         for (let j = 0; j < columns; j++) {
             let cell = Cell();     
             cell.setTokenValue(0);   
-            gameboard[i].push(cell);
+            gameBoard[i].push(cell);
         }
     }
 
     const resetGameBoard = () => {
         for (let i = 0; i < rows; i++) {
             for (let j = 0; j < columns; j++) {
-                gameboard[i][j].setTokenValue(0);
+                gameBoard[i][j].setTokenValue(0);
             }
         }
     };

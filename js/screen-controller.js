@@ -2,8 +2,8 @@ import { GameController } from "./game-controller.js";
 
 export const ScreenController = (() => {
     let cellElements = [];
-    const playerOneImage = "../assets/images/x.svg";
-    const playerTwoImage = "../assets/images/circle.svg";
+    const playerOneImage = "assets/images/x.svg";
+    const playerTwoImage = "assets/images/circle.svg";
 
     const getCellElements = () => cellElements;
 

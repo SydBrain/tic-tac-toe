@@ -1,85 +1,102 @@
 import { ScreenController } from "./screen-controller.js";
 
-export const GameController = (() => {
-    let players = [];
-    let currentPlayer;
+export const GameController = (players, gameBoard) => {
+    let currentPlayer = players[0];
 
-    const getPlayers = () => players;
-    const setPlayers = (playerOne, playerTwo) => {
-        players = [];
-        players.push(playerOne);
-        players.push(playerTwo);
-        currentPlayer = players[0];
-    }
+    ScreenController.displayCurrentTurn(currentPlayer.playerName);
 
-    const checkWinner = (playerToken, gameBoard) => {
-        // Check rows
-        for (let row = 0; row < 3; row++) {
-            if (gameBoard[row].every(cell => cell.getTokenValue() === playerToken)) {
-                return true;
-            }
+    const playTurn = (rowIndex, colIndex) => {
+
+        if (gameBoard[rowIndex][colIndex].getTokenValue() !== 0) {
+            return;
         }
+    
+        gameBoard[rowIndex][colIndex].setTokenValue(currentPlayer.playerToken);
+        ScreenController.updateCell(gameBoard, rowIndex, colIndex);
 
-        // Check columns
-        for (let col = 0; col < 3; col++) {
-            if (gameBoard.every(row => row[col].getTokenValue() === playerToken)) {
-                return true;
-            }
-        }
+        ScreenController.updateCell(gameBoard, rowIndex, colIndex);
 
-        // Check diagonals
-        if (gameBoard[0][0].getTokenValue() === playerToken &&
-            gameBoard[1][1].getTokenValue() === playerToken &&
-            gameBoard[2][2].getTokenValue() === playerToken) {
-            return true;
-        }
-        if (gameBoard[0][2].getTokenValue() === playerToken &&
-            gameBoard[1][1].getTokenValue() === playerToken &&
-            gameBoard[2][0].getTokenValue() === playerToken) {
-            return true;
-        }
-
-        // No win found
-        return false;
-    };
-
-    const checkTie = (gameBoard) => {
-        return gameBoard.flat().every(cell => cell.getTokenValue() !== 0);
-    };
-
-
-    const playRound = (gameBoard, rowIndex, columnIndex) => {
-        let cell = gameBoard[rowIndex][columnIndex];
-        let currentPlayerToken = currentPlayer.getPlayerToken();
-
-        cell.setTokenValue(currentPlayerToken); 
-        if (checkWinner(currentPlayerToken, gameBoard)) {
-            console.log(`${currentPlayer.getPlayerName()} wins.`);
-            resetGame(gameBoard);
-            ScreenController.resetGameBoard();
-        } else if (checkTie(gameBoard)) {
-            console.log("It's a tie");
-            resetGame(gameBoard);
-            ScreenController.resetGameBoard();
+        if (isWinner(currentPlayer)) {
+            ScreenController.displayGameResult(`${currentPlayer.playerName} wins.`);
+            ScreenController.updateHoverEffect('');
+            emitGameEnded();
+        } else if (isTie()) {
+            ScreenController.displayGameResult("It's a tie.");
+            ScreenController.updateHoverEffect('');
+            emitGameEnded();
         } else {
             switchPlayerTurn();
-        } 
+            ScreenController.updateHoverEffect(currentPlayer.playerToken);
+        }
     };
 
     const switchPlayerTurn = () => {
         currentPlayer = (currentPlayer === players[0]) ? players[1] : players[0];
+        ScreenController.displayCurrentTurn(currentPlayer.playerName);
     };
 
-    const resetGame = (gameBoard) => {
-        gameBoard.forEach((row, rowIndex) => {
-            row.forEach((cell, columnIndex) => {
-                cell.setTokenValue(0);
-            })
-        });
-        
-        currentPlayer = players[0];
-    }
+    const isWinner = (currentPlayer) => {
+        // Check Rows
+        for (let rowIndex = 0; rowIndex < gameBoard.length; rowIndex++) {
+            if (gameBoard[rowIndex].every(cell => cell.getTokenValue() === currentPlayer.playerToken)) {
+                return true;
+            };
+        }
+
+        // Check Columns
+        for (let colIndex = 0; colIndex < gameBoard.length; colIndex++) {
+            let cellsInColumn = [];
+            for (let rowIndex = 0; rowIndex < gameBoard.length; rowIndex++) {
+                cellsInColumn.push(gameBoard[rowIndex][colIndex]);
+            }
+
+            if (cellsInColumn.every(cell => cell.getTokenValue() === currentPlayer.playerToken)) {
+                return true;
+            }
+        }
+
+        // Check Diagonals
+
+        // Major Diagonal
+        let cellsInMajDiagonal = [];
+        for (let rowIndex = 0; rowIndex < gameBoard.length; rowIndex++) {
+            cellsInMajDiagonal.push(gameBoard[rowIndex][rowIndex]);
+        }
+        if (cellsInMajDiagonal.every(cell => cell.getTokenValue() === currentPlayer.playerToken)) {
+            return true;
+        }
+
+        // Minor Diagonal
+        let cellsInMinDiagonal = [];
+        for (let rowIndex = 0; rowIndex < gameBoard.length; rowIndex++) {
+            cellsInMinDiagonal.push(gameBoard[rowIndex][gameBoard.length - 1 - rowIndex]);
+        }
+        if (cellsInMinDiagonal.every(cell => cell.getTokenValue() === currentPlayer.playerToken)) {
+            return true;
+        }
 
 
-    return {getPlayers, setPlayers, playRound, switchPlayerTurn, checkWinner, checkTie, resetGame};
-})();
+        return false;
+    };
+
+    const isTie = () => {
+        for (let row of gameBoard) {
+            for (let cell of row) {
+                if (cell.getTokenValue() === 0) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    };
+
+    const emitGameEnded = () => {
+        document.dispatchEvent(new CustomEvent("gameEnded"));
+    };
+
+    return {
+        playTurn,
+        isWinner,
+        isTie
+    };
+}

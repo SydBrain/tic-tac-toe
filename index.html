@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta name="description" content="" />
-    <title>Title</title>
+    <title>Tic Tac Toe</title>
     <link rel="stylesheet" href="css/normalize.css">
     <link rel="stylesheet" href="css/style.css">
     <link rel="icon" href="favicon.png">
@@ -15,8 +15,31 @@
     <header>
      </header>
     <main>
+        <header>
+            <h1>TIC TAC TOE</h1>
+        </header>
+        <section class="game-start-container" id="gameStartFormContainer">
+            <form class="form" id="gameStartForm">
+                <div class="form-field">
+                    <label for="playerOneName">Insert Player One's Name</label>
+                    <input type="text" id="playerOneName" placeholder="Player One Name" maxlength="20">
+                </div>
+                <div class="form-field">
+                    <label for="playerTwoName">Insert Player Two's Name</label>
+                    <input type="text" id="playerTwoName" placeholder="Player Two Name" maxlength="20">
+                </div>
+                <button type="submit">Start Game</button>
+            </form>
+        </section>
+        <section class="current-turn-container">
+            <p id="currentTurn"></p>
+        </section>
         <section class="board-container" id="boardContainer">
 
+        </section>
+        <section class="end-game hidden" id="endGame">
+            <p id="gameResult"></p>
+            <button id="restartGame">Restart Game</button>
         </section>
     </main>
     <footer>

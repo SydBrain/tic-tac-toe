@@ -139,12 +139,12 @@ button:focus {
 }
 
 .board-cell:not(.filled)[data-hover-player="1"]:hover::before {
-    background-image: url('assets/images/x.svg');
+    background-image: url('../assets/images/x.svg');
     opacity: 1;
 }
 
 .board-cell:not(.filled)[data-hover-player="2"]:hover::before {
-    background-image: url('assets/images/circle.svg');
+    background-image: url('../assets/images/circle.svg');
     opacity: 1;
 }
 
